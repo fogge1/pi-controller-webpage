@@ -1,17 +1,32 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <SliderComponent />
+    <hr>
+    <Checkbox v-if="width > 375 || height > 812" ></Checkbox>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import client from './client/client.js'
+// @ is an alias to /src
+import SliderComponent from './components/SliderComponent'
+import Checkbox from './components/Checkbox'
 
 export default {
-  name: 'App',
+  name: 'Home',
   components: {
-    HelloWorld
+    SliderComponent,
+    Checkbox,
+  },
+  data: () => {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight
+    }
+  },
+  created() {
+    client.connect();
   }
 }
 </script>
