@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="checkbox-container">
     <label for="checkbox-sliders">Use Sliders   </label>
-    <input type="checkbox" class="checkbox-sliders" id="checkbox-sliders" @click="updateCheckSlider($event)" checked/>
+    <input type="checkbox" class="checkbox-sliders" id="checkbox-sliders" @click="updateCheckSlider($event)" checked :disabled="!this.$store.getters.isConnected"/>
     
   </div>
 </template>

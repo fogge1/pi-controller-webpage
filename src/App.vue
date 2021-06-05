@@ -1,7 +1,10 @@
 <template>
   <div id="app">
+    <PauseButton />
+    <ClientComponent />
+    
     <SliderComponent />
-    <hr>
+    
     <Checkbox v-if="width > 375 || height > 812" ></Checkbox>
   </div>
 </template>
@@ -12,12 +15,16 @@ import client from './client/client.js'
 // @ is an alias to /src
 import SliderComponent from './components/SliderComponent'
 import Checkbox from './components/Checkbox'
+import ClientComponent from './components/ClientComponent'
+import PauseButton from './components/PauseButton'
 
 export default {
   name: 'Home',
   components: {
     SliderComponent,
     Checkbox,
+    ClientComponent,
+    PauseButton
   },
   data: () => {
     return {

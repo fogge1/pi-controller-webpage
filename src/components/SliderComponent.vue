@@ -1,7 +1,7 @@
 <template>
-  <div>
-      <input v-model="steerValue" type="range" min="-80" max="80" value="0" class="slider" :disabled="this.$store.getters.useSliders" />
-      <input v-model="speedValue" type="range" min="-1023" max="1023" class="slider slider-vertical" orient="vertical" :disabled="this.$store.getters.useSliders"/>
+  <div class="slider-container">
+      <input v-model="steerValue" type="range" min="-80" max="80" value="0" class="slider" :disabled="!this.$store.getters.isConnected || this.$store.getters.useSliders ? true : false" />
+      <input v-model="speedValue" type="range" min="-1023" max="1023" class="slider slider-vertical" orient="vertical" :disabled="!this.$store.getters.isConnected || this.$store.getters.useSliders ? true : false" />
   </div>
 </template>
 
@@ -14,12 +14,14 @@ export default {
     return {
       speedValue: 0, // initial speed value
       steerValue: 0, // inital steer value
-      disableSliders: this.$store.getters.useSliders
+      disableSliders: this.$store.getters.useSliders // get if sliders should be disabled
     }
   },
   methods: {
     Send(value) {
       client.publish("isak.fogelberg@abbindustrigymnasium.se/drive", value)
+      this.$store.dispatch("setLatestPub", value)
+      this.$store.dispatch("setSpeed", this.speedValue);
       console.log(value)
     }
   },
@@ -51,39 +53,47 @@ export default {
     }
   },
   created () {
-    document.onkeydown = function (event) {
-      switch (event.keyCode) {
-         case 37:
-            client.publish("isak.fogelberg@abbindustrigymnasium.se/drive", "l80")
-            console.log("Left key is pressed.");
-            break;
-         case 38:
-            client.publish("isak.fogelberg@abbindustrigymnasium.se/drive", "b1023")
-            client.publish("isak.fogelberg@abbindustrigymnasium.se/drive", "l0")
-            console.log("Up key is pressed.");
-            break;
-         case 39:
-            client.publish("isak.fogelberg@abbindustrigymnasium.se/drive", "r80")
-            console.log("Right key is pressed.");
-            break;
-         case 40:
-            client.publish("isak.fogelberg@abbindustrigymnasium.se/drive", "f1023")
-            client.publish("isak.fogelberg@abbindustrigymnasium.se/drive", "l0")
-            console.log("Down key is pressed.");
-            break;
-          case 32:
-            client.publish("isak.fogelberg@abbindustrigymnasium.se/drive", "f0")
-            
+    addEventListener("keydown", (event) => {  
+      if (event.keyCode == 37) { // Left key
+        this.Send("l80")
+        
       }
-   }
-  },
-  mounted () {
-    
+      else if (event.keyCode == 38) { // Up key
+        this.Send("f1023")
+        this.speedValue = 1023
+      }
+      else if (event.keyCode == 39) { // Right key
+        this.Send("r80")
+       
+      }
+      else if (event.keyCode == 40) { // Down key
+        this.Send("b1023")
+        this.speedValue = -1023
+      }
+      else if (event.keyCode == 32) {
+        this.Send("f0")
+      }
+    }),
+   addEventListener("keyup", (event) => {
+    if (event.keyCode == 37 || event.isComposing ) { // release left
+      this.Send("r0")
+    }
+    else if (event.keyCode == 39 || event.isComposing) { // release right
+      this.Send("r0")
+    }
+   })
   }
 }
+  
+
 </script>
 
 <style scoped>
+
+.slider-container {
+  border: 1px solid black;
+  border-radius: 6px;
+}
 
 .slider-vertical {
   -webkit-appearance: slider-vertical;
@@ -93,7 +103,7 @@ export default {
 }
 
 .slider {
-  width: 30%;
+  width: 40%;
   height: 30vh;
   border-radius: 5px;
   background: #d3d3d3;
@@ -114,7 +124,6 @@ export default {
   width: 23px;
   height: 24px;
   border: 0;
-  /* background: url('https://i.pinimg.com/originals/ec/58/6a/ec586ac26f29bf6d186f0a738acdb056.jpg'); */
   cursor: pointer;
 }
 
@@ -122,7 +131,6 @@ export default {
   width: 23px;
   height: 24px;
   border: 0;
-  /* background: url('https://i.pinimg.com/originals/ec/58/6a/ec586ac26f29bf6d186f0a738acdb056.jpg'); */
   cursor: pointer;
 }
 </style>

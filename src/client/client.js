@@ -1,15 +1,18 @@
 const mqtt = require('mqtt');
- 
+import store from '../store/index.js'
+
 let client = {};
 
 const connect = () => {
     let id = "DriverControll" +Math.random().toString(16).substr(2, 8);
 
+    let user = store.getters.GetUser
+
     const options = {
         port: "8883",
         clientId: id,
-        username: "isak.fogelber@abbindustrigymnasium.se", // "isak.fogelberg@abbindustrigymnasium.se"
-        password: "apaapa",
+        username: user.name, // "isak.fogelberg@abbindustrigymnasium.se"
+        password: user.password,
         clean: false,
         will: {
         topic: 'offline',
@@ -17,13 +20,15 @@ const connect = () => {
         qos: 2
         }
     }
+    // console.log(user.name)
     client = mqtt.connect('mqtt://maqiatto.com', options);
 
-    client.on('connect', (message) => {
-        console.log(message)
+    client.on("connect", () => {
+        console.log("Ansluten till: " + options.username)
+        store.dispatch("setConnected", true)
     })
-    client.on('error', ()=> {
-        console.log('error')
+    client.on("error", ()=> {
+        store.dispatch("setConnected", false)
     })
 }
 
@@ -39,7 +44,9 @@ const publish = (topic, message) => {
    client.publish(topic, message, {qos: 1});
 }
 
-exports.connect = connect;
-exports.publish = publish;
-exports.subscribe = subscribe;
-exports.end = end;
+export default {
+    connect,
+    publish,
+    subscribe,
+    end
+}
