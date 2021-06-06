@@ -1,15 +1,19 @@
 <template>
   <div class="slider-container">
-      <input v-model="steerValue" type="range" min="-80" max="80" value="0" class="slider" :disabled="!this.$store.getters.isConnected || this.$store.getters.useSliders ? true : false" />
-      <input v-model="speedValue" type="range" min="-1023" max="1023" class="slider slider-vertical" orient="vertical" :disabled="!this.$store.getters.isConnected || this.$store.getters.useSliders ? true : false" />
+      <input v-model="steerValue" type="range" min="-80" max="80" value="0" class="slider" :disabled="!this.$store.getters.isConnected || this.$store.getters.useSliders || this.$store.getters.getPaused" />
+      <input v-model="speedValue" type="range" min="-1023" max="1023" class="slider slider-vertical" orient="vertical" :disabled="!this.$store.getters.isConnected || this.$store.getters.useSliders || this.$store.getters.getPaused" />
+      <Keys v-if="!this.$store.getters.getPaused" @updateSpeed="updateSpeed" @updateSteer="updateSteer" />
   </div>
 </template>
 
 <script>
-
+import Keys from './Keys'
 import client from '../client/client.js'
 
 export default {
+  components: {
+    Keys
+  },
   data () {
     return {
       speedValue: 0, // initial speed value
@@ -22,7 +26,13 @@ export default {
       client.publish("isak.fogelberg@abbindustrigymnasium.se/drive", value)
       this.$store.dispatch("setLatestPub", value)
       this.$store.dispatch("setSpeed", this.speedValue);
-      console.log(value)
+    },
+    updateSpeed(valueFromChild) {
+      this.speedValue = valueFromChild
+    },
+    updateSteer(valueFromChild) {
+      console.log("test")
+      this.steerValue = valueFromChild
     }
   },
   watch: {
@@ -52,37 +62,7 @@ export default {
       this.Send(dir + steerAngle)
     }
   },
-  created () {
-    addEventListener("keydown", (event) => {  
-      if (event.keyCode == 37) { // Left key
-        this.Send("l80")
-        
-      }
-      else if (event.keyCode == 38) { // Up key
-        this.Send("f1023")
-        this.speedValue = 1023
-      }
-      else if (event.keyCode == 39) { // Right key
-        this.Send("r80")
-       
-      }
-      else if (event.keyCode == 40) { // Down key
-        this.Send("b1023")
-        this.speedValue = -1023
-      }
-      else if (event.keyCode == 32) {
-        this.Send("f0")
-      }
-    }),
-   addEventListener("keyup", (event) => {
-    if (event.keyCode == 37 || event.isComposing ) { // release left
-      this.Send("r0")
-    }
-    else if (event.keyCode == 39 || event.isComposing) { // release right
-      this.Send("r0")
-    }
-   })
-  }
+  
 }
   
 

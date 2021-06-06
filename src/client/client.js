@@ -20,7 +20,7 @@ const connect = () => {
         qos: 2
         }
     }
-    // console.log(user.name)
+    
     client = mqtt.connect('mqtt://maqiatto.com', options);
 
     client.on("connect", () => {
@@ -42,6 +42,7 @@ const subscribe = (topic) => {
 }
 const publish = (topic, message) => {
    client.publish(topic, message, {qos: 1});
+   console.log("Published to topic: " + topic + ' Message: ' + message)
 }
 
 export default {

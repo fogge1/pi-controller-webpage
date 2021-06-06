@@ -15,6 +15,7 @@ const state = {
   isConnected: false,
   latestPub: 'No publish made yet',
   speed: 0,
+  paused: false
 }
 
 // mutations are operations that actually mutates the state.
@@ -34,6 +35,9 @@ const mutations = {
   },
   setSpeed: (state, value) => {
     state.speed = value
+  },
+  setPaused: (state, value) => {
+    state.paused = value
   }
 }
 
@@ -51,6 +55,9 @@ const actions = {
   },
   setSpeed: ({commit}, value) => {
     commit('setSpeed', value)
+  },
+  setPaused: ({commit}, value) => {
+    commit('setPaused', value)
   }
 }
 
@@ -61,7 +68,8 @@ const getters = {
   useSliders: state => state.useSliders,
   isConnected: state => state.isConnected,
   getLatestPub: state => state.latestPub,
-  getSpeed: state => state.speed
+  getSpeed: state => state.speed,
+  getPaused: state => state.paused
 }
 
 // A Vuex instance is created by combining the state, mutations, actions,
