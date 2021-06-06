@@ -25,7 +25,6 @@ export default {
     Send(value) {
       client.publish("isak.fogelberg@abbindustrigymnasium.se/drive", value)
       this.$store.dispatch("setLatestPub", value)
-      this.$store.dispatch("setSpeed", this.speedValue);
     },
     updateSpeed(valueFromChild) {
       this.speedValue = valueFromChild
@@ -47,6 +46,7 @@ export default {
          updatedValue = this.speedValue * -1
        }
       this.Send(dir + updatedValue)
+      this.$store.dispatch("setSpeed", this.speedValue);
     },
     steerValue : function () {
       let dir = 'r'
@@ -60,6 +60,8 @@ export default {
         steerAngle = this.steerValue * -1
       }
       this.Send(dir + steerAngle)
+      this.$store.dispatch("setSteer", this.steerValue);
+
     }
   },
   

@@ -38,6 +38,12 @@ export default {
     else if (event.keyCode == 39 || event.isComposing) { // release right
       this.$emit('updateSteer', 0)
     }
+    else if (event.keyCode == 38 || event.isComposing) { // release up
+      this.$emit('updateSpeed', 0)
+    }
+    else if (event.keyCode == 40 || event.isComposing) { // release down
+      this.$emit('updateSpeed', 0)
+    }
    })
   }
 }

@@ -20,6 +20,7 @@ export default {
             this.$store.dispatch("setLatestPub", this.isPaused ? 'Bilen är pausad' : 'Bilen är inte längre pausad')
             if (this.isPaused) {
                 this.$store.dispatch("setSpeed", 0)
+                this.$store.dispatch("setSteer", 0)
                 client.publish("isak.fogelberg@abbindustrigymnasium.se/drive", "f0")
                 client.publish("isak.fogelberg@abbindustrigymnasium.se/drive", "r0")
                 this.$store.dispatch("setPaused", true)

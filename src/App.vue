@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <ShowDirections />
     <PauseButton />
     <ClientComponent />
     
@@ -17,6 +18,7 @@ import SliderComponent from './components/SliderComponent'
 import Checkbox from './components/Checkbox'
 import ClientComponent from './components/ClientComponent'
 import PauseButton from './components/PauseButton'
+import ShowDirections from './components/ShowDirections'
 
 export default {
   name: 'Home',
@@ -24,7 +26,8 @@ export default {
     SliderComponent,
     Checkbox,
     ClientComponent,
-    PauseButton
+    PauseButton,
+    ShowDirections,
   },
   data: () => {
     return {

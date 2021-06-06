@@ -15,6 +15,7 @@ const state = {
   isConnected: false,
   latestPub: 'No publish made yet',
   speed: 0,
+  steer: 0,
   paused: false
 }
 
@@ -36,6 +37,9 @@ const mutations = {
   setSpeed: (state, value) => {
     state.speed = value
   },
+  setSteer: (state, value) => {
+    state.steer = value
+  },
   setPaused: (state, value) => {
     state.paused = value
   }
@@ -56,6 +60,9 @@ const actions = {
   setSpeed: ({commit}, value) => {
     commit('setSpeed', value)
   },
+  setSteer: ({commit}, value) => {
+    commit('setSteer', value)
+  },
   setPaused: ({commit}, value) => {
     commit('setPaused', value)
   }
@@ -69,6 +76,7 @@ const getters = {
   isConnected: state => state.isConnected,
   getLatestPub: state => state.latestPub,
   getSpeed: state => state.speed,
+  getSteer: state => state.steer,
   getPaused: state => state.paused
 }
 
