@@ -1,11 +1,13 @@
 <template>
   <div>
-      
+
   </div>
 </template>
 
 <script>
+
 export default {
+    props: ['speedValue'],
     created () {
   
     addEventListener("keydown", (event) => {  
@@ -15,12 +17,18 @@ export default {
       }
       else if (event.keyCode == 38) { // Up key
         this.$emit('updateSpeed', 1023)
+        if (this.speedValue == 1023 && !this.$store.getters.getPaused) {
+            this.$parent.Send('f1023')
+        }
       }
       else if (event.keyCode == 39) { // Right key
         this.$emit('updateSteer', 80)
       }
       else if (event.keyCode == 40) { // Down key
         this.$emit('updateSpeed', -1023)
+        if (this.speedValue == -1023 && !this.$store.getters.getPaused) {
+            this.$parent.Send('b1023')
+        }
       }
     }),
    addEventListener("keyup", (event) => {

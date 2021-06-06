@@ -2,7 +2,7 @@
   <div class="slider-container">
       <input v-model="steerValue" type="range" min="-80" max="80" value="0" class="slider" :disabled="!this.$store.getters.isConnected || this.$store.getters.useSliders || this.$store.getters.getPaused" />
       <input v-model="speedValue" type="range" min="-1023" max="1023" class="slider slider-vertical" orient="vertical" :disabled="!this.$store.getters.isConnected || this.$store.getters.useSliders || this.$store.getters.getPaused" />
-      <Keys v-if="!this.$store.getters.getPaused" @updateSpeed="updateSpeed" @updateSteer="updateSteer" />
+      <Keys v-if="!this.$store.getters.getPaused" @updateSpeed="updateSpeed" @updateSteer="updateSteer" :speedValue="speedValue" />
   </div>
 </template>
 
@@ -99,7 +99,6 @@ export default {
 }
 
 .slider::-webkit-slider-thumb {
-  
   appearance: none;
   width: 23px;
   height: 24px;
