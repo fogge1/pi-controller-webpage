@@ -16,9 +16,11 @@ export default {
     methods: {
         updateCheckSlider (e)  {
             if (e.target.checked) {
+                // Using sliders
                 this.$store.dispatch("setUseSliders", false)
             }
             else {
+                // Not using sliders
                 this.$store.dispatch("setUseSliders", true)
             }
         }

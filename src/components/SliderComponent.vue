@@ -23,29 +23,34 @@ export default {
   },
   methods: {
     Send(value) {
+      // Publish to topic
       client.publish("isak.fogelberg@abbindustrigymnasium.se/drive", value)
       this.$store.dispatch("setLatestPub", value)
     },
+    // valueFromChild is the value from Keys.vue
     updateSpeed(valueFromChild) {
       this.speedValue = valueFromChild
     },
     updateSteer(valueFromChild) {
-      console.log("test")
       this.steerValue = valueFromChild
     }
   },
   watch: {
     speedValue : function () {
+      // Define direction of car to f(forward)
       let dir = 'f'
       let updatedValue = this.speedValue
        if ( this.speedValue > 0 ) {
+         // if Speed value from slider is greater than 0 the car should drive forward
          dir = 'f'
        }
        else if ( this.speedValue < 0) {
+         // if Speed value from slider is less than 0 the car should drive backwards
          dir = 'b'
          updatedValue = this.speedValue * -1
        }
       this.Send(dir + updatedValue)
+      // Update speed in store
       this.$store.dispatch("setSpeed", this.speedValue);
     },
     steerValue : function () {
@@ -60,6 +65,7 @@ export default {
         steerAngle = this.steerValue * -1
       }
       this.Send(dir + steerAngle)
+      // Update steer value in store
       this.$store.dispatch("setSteer", this.steerValue);
 
     }
@@ -86,7 +92,7 @@ export default {
 
 .slider {
   width: 40%;
-  height: 30vh;
+  height: 45vh;
   border-radius: 5px;
   background: #d3d3d3;
   outline: none;
@@ -94,6 +100,7 @@ export default {
   -webkit-transition: .2s;
   transition: opacity .2s;
   display: inline;
+  margin: 5vh 0 5vh 0;
 }
 
 .slider:hover {
@@ -102,6 +109,7 @@ export default {
 
 .slider::-webkit-slider-thumb {
   appearance: none;
+  background: #04AA6D;
   width: 23px;
   height: 24px;
   border: 0;
@@ -111,6 +119,7 @@ export default {
 .slider::-moz-range-thumb {
   width: 23px;
   height: 24px;
+  background: #04AA6D;
   border: 0;
   cursor: pointer;
 }

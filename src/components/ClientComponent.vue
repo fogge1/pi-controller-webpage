@@ -3,6 +3,7 @@
       <p class="connectedTo" v-if="$store.getters.isConnected" >Ansluten till: {{$store.getters.GetUser.name}}</p>
       <p class="conntectedTo error" v-if="!$store.getters.isConnected">Error while connecting to: {{$store.getters.GetUser.name}}</p>
       <p>Speed: {{this.$store.getters.getSpeed}}</p>
+      <p>Steer Angle: {{this.$store.getters.getSteer}}°</p>
       <p class="latest-pub"> Latest publish to arduino: {{this.$store.getters.getLatestPub}} </p>
   </div>
 </template>

@@ -13,7 +13,6 @@
 <script>
 
 import client from './client/client.js'
-// @ is an alias to /src
 import SliderComponent from './components/SliderComponent'
 import Checkbox from './components/Checkbox'
 import ClientComponent from './components/ClientComponent'
@@ -31,23 +30,28 @@ export default {
   },
   data: () => {
     return {
-      width: window.innerWidth,
-      height: window.innerHeight
+      width: window.innerWidth, // Width of user's screen
+      height: window.innerHeight // Height of user's screen
     }
   },
   created() {
+    // When created call connect function in client.js
     client.connect();
   }
 }
 </script>
 
 <style>
+body {
+  background: darkgray;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  background: darkgray;
 }
 </style>

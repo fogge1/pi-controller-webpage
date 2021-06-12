@@ -4,7 +4,6 @@ Vue.use(Vuex)
 
 
 const state = {
-  // connect: false,
   user: {
     name: "isak.fogelberg@abbindustrigymnasium.se",
     password: "apaapa",

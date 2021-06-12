@@ -1,8 +1,10 @@
+// Import mqtt and store
 const mqtt = require('mqtt');
 import store from '../store/index.js'
 
 let client = {};
 
+// Connect to maqiatto
 const connect = () => {
     let id = "DriverControll" +Math.random().toString(16).substr(2, 8);
 
@@ -22,6 +24,7 @@ const connect = () => {
     }
     
     client = mqtt.connect('mqtt://maqiatto.com', options);
+    // client = mqtt.connect('mqtt://192.168.1.116', options);    
 
     client.on("connect", () => {
         console.log("Ansluten till: " + options.username)
@@ -32,22 +35,20 @@ const connect = () => {
     })
 }
 
-
-const end = () => {
-    client.end();
-}
+// Subsribe to a topic
 const subscribe = (topic) => {
     client.subscribe(topic);
     console.log('subscribe:', topic);
 }
+// publish to a topic
 const publish = (topic, message) => {
    client.publish(topic, message, {qos: 1});
    console.log("Published to topic: " + topic + ' Message: ' + message)
 }
 
+// Export functions
 export default {
     connect,
     publish,
-    subscribe,
-    end
+    subscribe
 }

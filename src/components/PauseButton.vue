@@ -16,7 +16,9 @@ export default {
     },
     methods: {
         pauseCar() {
+            // Set isPaused to opposite value
             this.isPaused = !this.isPaused
+            // Set message
             this.$store.dispatch("setLatestPub", this.isPaused ? 'Bilen är pausad' : 'Bilen är inte längre pausad')
             if (this.isPaused) {
                 this.$store.dispatch("setSpeed", 0)
@@ -33,6 +35,7 @@ export default {
     created() {
         addEventListener("keydown", (event) => {
             if (event.keyCode == 32) {
+                // Call pausedCar function if space is pressed
                 this.pauseCar();
             }
         });
