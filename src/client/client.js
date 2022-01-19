@@ -1,25 +1,31 @@
-// Import mqtt and store
+// Import mqtt
 const mqtt = require('mqtt');
-import store from '../store/index.js'
 
 let client = {};
+
+ 
 
 // Connect to maqiatto
 const connect = () => {
     let id = "DriverControll" +Math.random().toString(16).substr(2, 8);
 
-    let user = store.getters.GetUser
+    let user = {
+        name: "isak.fogelberg@abbgymnasiet.se",
+        password: "apaapa",
+        port: 8883,
+        adress: "maqiatto.com"
+    }
 
     const options = {
         port: "8883",
         clientId: id,
-        username: user.name, // "isak.fogelberg@abbindustrigymnasium.se"
+        username: user.name, 
         password: user.password,
         clean: false,
         will: {
-        topic: 'offline',
-        payload: id,
-        qos: 2
+            topic: 'offline',
+            payload: id,
+            qos: 2
         }
     }
     
@@ -28,17 +34,20 @@ const connect = () => {
 
     client.on("connect", () => {
         console.log("Ansluten till: " + options.username)
-        store.dispatch("setConnected", true)
+        
     })
     client.on("error", ()=> {
-        store.dispatch("setConnected", false)
+        console.log("error")
     })
+    
 }
 
 // Subsribe to a topic
 const subscribe = (topic) => {
-    client.subscribe(topic);
-    console.log('subscribe:', topic);
+    client.subscribe(topic)
+    client.on("message", (topic, message) => {
+        return message.toString()
+    })
 }
 // publish to a topic
 const publish = (topic, message) => {
