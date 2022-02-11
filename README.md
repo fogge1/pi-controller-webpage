@@ -1,9 +1,6 @@
 # driverbot
 
-## What the website looks like when connected to mqtt:
-![connected](connected.png)
-## What the website looks like if connection to mqtt failed:
-![notconnected](notconnected.png)
+
 
 ## Project setup
 ```
